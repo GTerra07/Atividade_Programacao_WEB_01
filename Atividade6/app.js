@@ -1,27 +1,29 @@
 // app.js
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000; // ou a porta desejada
+const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
 
-// Rota principal que renderiza o formulário
+
+app.set('view engine', 'ejs');
+
+
+app.use(express.static(__dirname + '/Atividade6/views'));
+
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/index.html');
+  res.render('index'); 
 });
 
-// Rota para receber os dados do formulário
 app.post('/dados', (req, res) => {
   const { nome, endereco, telefone, data } = req.body;
 
-  // Verifica se algum campo está vazio
+  
   if (!nome || !endereco || !telefone || !data) {
-    res.sendFile(__dirname + '/views/erro.html');
+    res.render('erro'); 
   } else {
-    // Renderiza a página com os dados
+    
     res.render('dados', { nome, endereco, telefone, data });
   }
 });
